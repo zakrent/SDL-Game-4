@@ -10,6 +10,7 @@
 namespace Entity {
     class BaseSystem {
     public:
+        virtual void update(){};
         virtual void updateEntity(Entity* entity){};
 
         BaseSystem(){}

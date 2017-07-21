@@ -16,7 +16,7 @@ namespace State {
     public:
         void update();
         void handleEvent(SDL_Event& event);
-        GameplayState(SDL_Renderer* renderer, Program* mainProgram): BaseState(renderer, mainProgram){}
+        GameplayState(SDL_Renderer* renderer, Program* mainProgram): entityManager(renderer), BaseState(renderer, mainProgram){}
     };
 }
 

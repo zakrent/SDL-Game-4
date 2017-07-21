@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <SDL_render.h>
 #include <string>
 #include "../misc/types.h"
 #include "Entity.h"
@@ -26,7 +27,7 @@ namespace Entity{
         void createEntity(std::vector< std::unique_ptr<BaseComponent> > components){}; //Todo: implement
         void update();
 
-        EntityManager();
+        EntityManager(SDL_Renderer *_renderer);
         ~EntityManager();
     };
 }

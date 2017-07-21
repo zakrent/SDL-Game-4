@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 project(GAME-4)
 
-set(CMAKE_CXX_STANDARD 14)
-
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 find_package(SDL2 REQUIRED)
@@ -17,3 +15,4 @@ file(GLOB_RECURSE SOURCE_FILES
 
 add_executable(GAME-4 ${SOURCE_FILES} ${SOURCE_FILES})
 target_link_libraries(GAME-4 ${SDL2_LIBRARIES})
+file(COPY textures/ DESTINATION textures/)

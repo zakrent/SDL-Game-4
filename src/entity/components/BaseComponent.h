@@ -8,7 +8,8 @@
 #include <string>
 
 namespace Entity {
-    struct BaseComponent{
+    class BaseComponent{
+    public:
         std::string name;
 
         BaseComponent(std::string name) : name(name) {}
