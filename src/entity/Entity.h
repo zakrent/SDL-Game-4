@@ -16,18 +16,17 @@ namespace Entity {
         bool shouldBeDestroyed;
         std::unordered_map<std::string, std::unique_ptr<BaseComponent> > components;
     public:
-        void addComponent(std::unique_ptr<BaseComponent> componentPtr){
-            BaseComponent* component = componentPtr.get();
-            components[component->name] = std::move(componentPtr);
-        };
+        void addComponent(std::unique_ptr<BaseComponent> component)
+        {
+            components[component.get()->name] = std::move(component);
+        }
         template<typename T>
         T* getComponent(std::string name)
         {
             auto got = components.find(name);
             if (got == components.end())
                 return nullptr;
-            BaseComponent* component = got->second.get();
-            return dynamic_cast<T*>(component);
+            return static_cast<T*>(got->second.get());
         }
         void destroy(){shouldBeDestroyed = true;};
 
