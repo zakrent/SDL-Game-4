@@ -3,8 +3,8 @@
 //
 
 #include "RenderSystem.h"
-#include "../components/VisualComponent.h"
-#include "../components/PositionComponent.h"
+#include "../component/VisualComponent.h"
+#include "../component/PositionComponent.h"
 
 namespace Entity {
     RenderSystem::RenderSystem(SDL_Renderer *_renderer)

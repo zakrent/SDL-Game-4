@@ -5,8 +5,8 @@
 #include <iostream>
 #include "EntityManager.h"
 #include "system/RenderSystem.h"
-#include "components/PositionComponent.h"
-#include "components/VisualComponent.h"
+#include "component/PositionComponent.h"
+#include "component/VisualComponent.h"
 
 namespace Entity{
 

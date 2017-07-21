@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <memory>
 #include "../misc/types.h"
-#include "components/BaseComponent.h"
+#include "component/BaseComponent.h"
 
 namespace Entity {
     class Entity {
