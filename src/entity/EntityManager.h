@@ -25,7 +25,7 @@ namespace Entity{
     public:
         void addEntity(std::unique_ptr<Entity>);
         void createEntity(std::vector< std::unique_ptr<BaseComponent> > components){}; //Todo: implement
-        void update();
+        void update(unsigned long long int updateNumber);
 
         EntityManager(SDL_Renderer *_renderer);
         ~EntityManager();

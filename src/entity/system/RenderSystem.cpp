@@ -13,7 +13,7 @@ namespace Entity {
     }
 
     RenderSystem::~RenderSystem() {
-        if(spriteSheet){
+        if(spriteSheet != nullptr){
             SDL_DestroyTexture(spriteSheet);
         }
     }
@@ -37,7 +37,7 @@ namespace Entity {
         SDL_RenderClear(renderer);
     }
 
-    void RenderSystem::updateEntity(Entity *entity) {
+    void RenderSystem::updateEntity(Entity *entity, unsigned long long int updateNumber) {
         VisualComponent* visualComponent = entity->getComponent<VisualComponent>("Visual");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
         if(!visualComponent || !positionComponent)

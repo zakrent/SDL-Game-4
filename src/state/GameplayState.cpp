@@ -6,7 +6,8 @@
 namespace State {
 
     void GameplayState::update() {
-        entityManager.update();
+        updateNumber++;
+        entityManager.update(updateNumber);
     }
 
     void GameplayState::handleEvent(SDL_Event &event) {
