@@ -7,7 +7,10 @@
 
 namespace Entity {
     struct Message {
-        int value1; //todo: make it a template
+        std::string subject;
+        uint64 receiverID;
+
+        Message(std::string subject, uint64 receiverID):subject(subject), receiverID(receiverID){}
     };
 }
 

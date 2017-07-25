@@ -8,16 +8,18 @@
 
 #include <vector>
 #include "BaseSystem.h"
+#include "../EntityManager.h"
 
 namespace Entity {
     class AiSystem : public BaseSystem {
+        EntityManager* entityManager;
         std::vector< std::unique_ptr<Entity> >* entities;
         Entity* getEntityAtPos(int x, int y);
     public:
         void update();
-        void updateEntity(Entity* entity, unsigned long long int updateNumber);
+        void updateEntity(Entity* entity, uint64 updateNumber);
 
-        AiSystem(std::vector< std::unique_ptr<Entity> >* _entities );
+        AiSystem(std::vector< std::unique_ptr<Entity> >* _entities, EntityManager* entityManager);
     };
 }
 

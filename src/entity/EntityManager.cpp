@@ -14,13 +14,13 @@ namespace Entity{
 
     EntityManager::EntityManager(SDL_Renderer *_renderer) {
         systems.push_back(std::unique_ptr<BaseSystem>(new RenderSystem(_renderer)));
-        systems.push_back(std::unique_ptr<BaseSystem>(new AiSystem(&entities)));
-        Entity* entity = new Entity();
+        systems.push_back(std::unique_ptr<BaseSystem>(new AiSystem(&entities, this)));
+        Entity* entity = new Entity(randomGenerator.getRandomID());
         entity->addComponent(std::unique_ptr<BaseComponent>(new PositionComponent(1,0)));
         entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
         entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(1)));
         entities.push_back(std::unique_ptr<Entity>(entity));
-        entity = new Entity();
+        entity = new Entity(randomGenerator.getRandomID());
         entity->addComponent(std::unique_ptr<BaseComponent>(new PositionComponent(1,6)));
         entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
         entities.push_back(std::unique_ptr<Entity>(entity));
@@ -28,7 +28,7 @@ namespace Entity{
 
     EntityManager::~EntityManager() {}
 
-    void EntityManager::update(unsigned long long int updateNumber) {
+    void EntityManager::update(uint64 updateNumber) {
         for(auto& systemPtr : systems){
             BaseSystem* system = systemPtr.get();
             system->update();
@@ -37,11 +37,15 @@ namespace Entity{
                 system->updateEntity(entity, updateNumber);
             }
         }
-        messages = newMessages;
+        std::swap(messages, newMessages);
         newMessages.clear();
     }
 
     void EntityManager::addEntity(std::unique_ptr<Entity> entity) {
         entities.push_back(std::move(entity));
+    }
+
+    void EntityManager::createMessage(Message *message) {
+        newMessages.insert(std::unordered_multimap<uint64, std::unique_ptr<Message>>::value_type(message->receiverID, message));
     }
 }

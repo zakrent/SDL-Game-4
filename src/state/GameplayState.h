@@ -12,7 +12,7 @@
 namespace State {
     class GameplayState : public BaseState {
         Entity::EntityManager entityManager;
-        unsigned long long int updateNumber;
+        uint64 updateNumber;
     public:
         void update();
         void handleEvent(SDL_Event& event);

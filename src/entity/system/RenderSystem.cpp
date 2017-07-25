@@ -37,7 +37,7 @@ namespace Entity {
         SDL_RenderClear(renderer);
     }
 
-    void RenderSystem::updateEntity(Entity *entity, unsigned long long int updateNumber) {
+    void RenderSystem::updateEntity(Entity *entity, uint64 updateNumber) {
         VisualComponent* visualComponent = entity->getComponent<VisualComponent>("Visual");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
         if(!visualComponent || !positionComponent)

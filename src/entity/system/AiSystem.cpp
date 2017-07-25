@@ -5,17 +5,18 @@
 #include "AiSystem.h"
 #include "../component/AiComponent.h"
 #include "../component/PositionComponent.h"
+#include "../message/DamageMessage.h"
 
 namespace Entity {
-    AiSystem::AiSystem(std::vector< std::unique_ptr<Entity> >* _entities )
-    : entities(_entities){
+    AiSystem::AiSystem(std::vector< std::unique_ptr<Entity> >* _entities, EntityManager* entityManager)
+    : entities(_entities), entityManager(entityManager){
 
     }
 
     void AiSystem::update() {
     }
 
-    void AiSystem::updateEntity(Entity *entity, unsigned long long int updateNumber) {
+    void AiSystem::updateEntity(Entity *entity, uint64 updateNumber) {
 
         AiComponent* aiComponent = entity->getComponent<AiComponent>("Ai");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
@@ -26,6 +27,8 @@ namespace Entity {
                 Entity* downEntity = getEntityAtPos(positionComponent->x,positionComponent->y+1);
                 if(downEntity == nullptr && updateNumber%20 == 0)
                     positionComponent->y ++;
+                else if(updateNumber%20 == 0)
+                    entityManager->createMessage(new DamageMessage(downEntity->getID(), 10));
                 break;
         }
     }

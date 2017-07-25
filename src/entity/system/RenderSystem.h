@@ -18,7 +18,7 @@ namespace Entity {
         void renderTexture(SDL_Rect srcrect, Vector2D position);
     public:
         void update();
-        void updateEntity(Entity* entity, unsigned long long int updateNumber);
+        void updateEntity(Entity* entity, uint64 updateNumber);
 
         RenderSystem(SDL_Renderer* _renderer);
         ~RenderSystem();

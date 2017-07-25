@@ -12,7 +12,7 @@
 
 namespace Entity {
     class Entity {
-        //int64 int ID;
+        uint64 ID;
         bool shouldBeDestroyed;
         std::unordered_map<std::string, std::unique_ptr<BaseComponent> > components;
     public:
@@ -28,9 +28,10 @@ namespace Entity {
                 return nullptr;
             return static_cast<T*>(got->second.get());
         }
-        void destroy(){shouldBeDestroyed = true;};
+        void destroy(){shouldBeDestroyed = true;}
+        uint64 getID(){ return  ID;}
 
-        Entity(){};
+        Entity(uint64 _ID):ID(_ID){};
     };
 }
 

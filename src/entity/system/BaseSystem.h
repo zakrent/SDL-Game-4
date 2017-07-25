@@ -11,7 +11,7 @@ namespace Entity {
     class BaseSystem {
     public:
         virtual void update(){};
-        virtual void updateEntity(Entity* entity, unsigned long long int updateNumber){};
+        virtual void updateEntity(Entity* entity, uint64 updateNumber){};
 
         BaseSystem(){}
     };
