@@ -17,8 +17,8 @@ namespace State{
 
 class Program {
 private:
-    const int SCREEN_WIDTH = 600;
-    const int SCREEN_HEIGHT = 300;
+    const int SCREEN_WIDTH = 320;
+    const int SCREEN_HEIGHT = 346;
     const int MIN_UPDATE_TIME = 20;
     int updateStartedAt;
     SDL_Window* window;

@@ -15,7 +15,7 @@ namespace Entity {
         SDL_Renderer* renderer;
 
         void loadSpriteSheet(char* filePath);
-        void renderTexture(SDL_Rect srcrect, Vector2D position);
+        void renderTexture(SDL_Rect srcrect, Vector2D position, float scalingFactor);
     public:
         void update();
         void updateEntity(Entity* entity, uint64 updateNumber);

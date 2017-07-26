@@ -3,6 +3,8 @@
 //
 
 #include "GameplayState.h"
+#include "../entity/message/MouseClickMessage.h"
+
 namespace State {
 
     void GameplayState::update() {
@@ -15,6 +17,8 @@ namespace State {
             case SDL_QUIT:
                 mainProgram->stateStack.pop();
                 break;
+            case  SDL_MOUSEBUTTONDOWN:
+                entityManager.createMessage(new Entity::MouseClickMessage(event.button.x, event.button.y));
             default:
                 break;
         }

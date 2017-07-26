@@ -5,6 +5,7 @@
 #include "RenderSystem.h"
 #include "../component/VisualComponent.h"
 #include "../component/PositionComponent.h"
+#include "../component/UiComponent.h"
 
 namespace Entity {
     RenderSystem::RenderSystem(SDL_Renderer *_renderer)
@@ -18,8 +19,12 @@ namespace Entity {
         }
     }
 
-    void RenderSystem::renderTexture(SDL_Rect srcrect, Vector2D pixPosition){
+    void RenderSystem::renderTexture(SDL_Rect srcrect, Vector2D pixPosition, float scalingFactor = 0.75){
         SDL_Rect dstrect = {int(pixPosition.x), int(pixPosition.y), srcrect.w, srcrect.h};
+        dstrect.x = ceil(dstrect.x/scalingFactor);
+        dstrect.y = ceil(dstrect.y/scalingFactor);
+        dstrect.w = ceil(dstrect.w/scalingFactor);
+        dstrect.h = ceil(dstrect.h/scalingFactor);
         SDL_RenderCopyEx(renderer, spriteSheet, &srcrect, &dstrect, 0, NULL, SDL_FLIP_NONE);
     }
 
@@ -40,9 +45,14 @@ namespace Entity {
     void RenderSystem::updateEntity(Entity *entity, uint64 updateNumber) {
         VisualComponent* visualComponent = entity->getComponent<VisualComponent>("Visual");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
+        UiComponent* uiComponent = entity->getComponent<UiComponent>("Ui");
         if(!visualComponent || !positionComponent)
             return;
         Vector2D pixPosition(positionComponent->x*visualComponent->srcrect.w, positionComponent->y*visualComponent->srcrect.h);
-        renderTexture(visualComponent->srcrect, pixPosition);
+        if(!uiComponent) {
+            renderTexture(visualComponent->srcrect, pixPosition);
+            return;
+        }
+        renderTexture(visualComponent->srcrect, pixPosition, 1);
     }
 }
