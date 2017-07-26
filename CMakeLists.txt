@@ -13,6 +13,6 @@ file(GLOB_RECURSE SOURCE_FILES
         "src/*.h"
         )
 
-add_executable(GAME-4 ${SOURCE_FILES} ${SOURCE_FILES} src/entity/component/UiComponent.h)
+add_executable(GAME-4 ${SOURCE_FILES} ${SOURCE_FILES})
 target_link_libraries(GAME-4 ${SDL2_LIBRARIES})
 file(COPY textures/ DESTINATION textures/)

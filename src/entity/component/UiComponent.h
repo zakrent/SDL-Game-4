@@ -10,7 +10,8 @@
 namespace Entity {
     class UiComponent : public  BaseComponent{
     public:
-        UiComponent() : BaseComponent("Ui"){}
+        int representedPrefabId;
+        UiComponent(int representedPrefabId) : BaseComponent("Ui"), representedPrefabId(representedPrefabId){}
     };
 }
 

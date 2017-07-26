@@ -15,10 +15,11 @@ namespace State{
     class BaseState;
 }
 
+const int SCREEN_WIDTH = 320;
+const int SCREEN_HEIGHT = 360;
+
 class Program {
 private:
-    const int SCREEN_WIDTH = 320;
-    const int SCREEN_HEIGHT = 346;
     const int MIN_UPDATE_TIME = 20;
     int updateStartedAt;
     SDL_Window* window;

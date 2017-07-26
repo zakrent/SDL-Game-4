@@ -22,13 +22,24 @@ namespace Entity{
         Random randomGenerator;
         std::vector< std::unique_ptr<Entity> > entities;
         std::vector< std::unique_ptr<BaseSystem> > systems;
-        std::unordered_multimap<uint64, std::unique_ptr<Message>> messages; //key receiver ID (id 0 for broadcast)
-        std::unordered_multimap<uint64, std::unique_ptr<Message>> newMessages;
+        std::vector< std::unique_ptr<Message> > messages; //key receiver ID (id 0 for broadcast)
+        std::vector< std::unique_ptr<Message> > newMessages;
     public:
         void addEntity(std::unique_ptr<Entity>);
         void spawnPrefab(int prefabID, int x, int y);
         void createMessage(Message* message);
         void update(uint64 updateNumber);
+
+        template <typename T>
+        std::vector<T> getMessges(uint64 receiverID, std::string subject) {
+            std::vector<T> result;
+            for (auto& messagePtr : messages) {
+                Message* message = messagePtr.get();
+                if (message->subject == subject && message->receiverID == receiverID)
+                    result.push_back(*static_cast<T*>(message));
+                return result;
+            }
+        }
 
         EntityManager(SDL_Renderer *_renderer);
         ~EntityManager();
