@@ -15,15 +15,8 @@ namespace Entity{
     EntityManager::EntityManager(SDL_Renderer *_renderer) {
         systems.push_back(std::unique_ptr<BaseSystem>(new RenderSystem(_renderer)));
         systems.push_back(std::unique_ptr<BaseSystem>(new AiSystem(&entities, this)));
-        Entity* entity = new Entity(randomGenerator.getRandomID());
-        entity->addComponent(std::unique_ptr<BaseComponent>(new PositionComponent(1,0)));
-        entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
-        entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(1)));
-        entities.push_back(std::unique_ptr<Entity>(entity));
-        entity = new Entity(randomGenerator.getRandomID());
-        entity->addComponent(std::unique_ptr<BaseComponent>(new PositionComponent(1,6)));
-        entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
-        entities.push_back(std::unique_ptr<Entity>(entity));
+        spawnPrefab(1,1,0);
+        spawnPrefab(0,1,6);
     }
 
     EntityManager::~EntityManager() {}
@@ -47,5 +40,23 @@ namespace Entity{
 
     void EntityManager::createMessage(Message *message) {
         newMessages.insert(std::unordered_multimap<uint64, std::unique_ptr<Message>>::value_type(message->receiverID, message));
+    }
+
+    void EntityManager::spawnPrefab(int prefabID, int x, int y) {
+        Entity* entity = new Entity(randomGenerator.getRandomID());
+        entity->addComponent(std::unique_ptr<BaseComponent>( new PositionComponent(x,y) ));
+        switch(prefabID){
+            case 0: //static entity
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
+                break;
+            case 1: //basic enemy
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(1)));
+                break;
+            default:
+                delete entity;
+                return;
+        }
+        entities.push_back(std::unique_ptr<Entity>(entity));
     }
 }
