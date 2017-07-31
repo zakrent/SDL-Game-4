@@ -23,7 +23,11 @@ namespace Entity {
         std::vector<MouseClickMessage> mouseClickMessages = entityManager->getMessges<MouseClickMessage>(0,"MouseClick");
         if(mouseClickMessages.size()>0)
             if(mouseClickMessages.back().pixY<SCREEN_HEIGHT-24){
-                //createEntityAtPixPos
+                entityManager->spawnPrefab(
+                        selectedEntity->getComponent<UiComponent>("Ui")->representedPrefabId,
+                        int(mouseClickMessages.back().pixX/(24/0.75)),
+                        int(mouseClickMessages.back().pixY/(24/0.75))
+                );
             }else{
                 hasBeenClicked = true;
                 lastClickX = mouseClickMessages.back().pixX;
