@@ -11,6 +11,7 @@
 #include "../component/VisualComponent.h"
 #include "../component/PositionComponent.h"
 #include "../../misc/collision.h"
+#include "../component/SelectorComponent.h"
 
 namespace Entity {
     UiSystem::UiSystem(EntityManager *entityManager)
@@ -34,9 +35,18 @@ namespace Entity {
     }
 
     void UiSystem::updateEntity(Entity *entity, uint64 updateNumber) {
+        SelectorComponent* selectorComponent = entity->getComponent<SelectorComponent>("Selector");
         UiComponent* uiComponent = entity->getComponent<UiComponent>("Ui");
+        if(selectorComponent && selectedEntity){
+            PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
+            PositionComponent* selectedPos = selectedEntity->getComponent<PositionComponent>("Position");
+            positionComponent->x = selectedPos->x;
+            positionComponent->y = selectedPos->y;
+        }
         if(!uiComponent)
             return;
+        if(!selectedEntity)
+            selectedEntity = entity;
         VisualComponent* visualComponent = entity->getComponent<VisualComponent>("Visual");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
         if(!visualComponent || !positionComponent)

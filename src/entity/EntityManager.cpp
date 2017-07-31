@@ -14,6 +14,7 @@
 #include "system/HealthSystem.h"
 #include "component/HealthComponent.h"
 #include "component/EnemyComponent.h"
+#include "component/SelectorComponent.h"
 
 namespace Entity{
 
@@ -24,6 +25,7 @@ namespace Entity{
         systems.push_back(std::unique_ptr<BaseSystem>(new HealthSystem(this)));
         spawnPrefab(10,0,14);
         spawnPrefab(11,1,14);
+        spawnPrefab(30,0,0);
     }
 
     EntityManager::~EntityManager() {}
@@ -79,6 +81,10 @@ namespace Entity{
             case 11: //ui-basic enemy spawn
                 entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{24,0,24,24}) ));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new UiComponent(1)));
+                break;
+            case 30: //ui-selector
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{48,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new SelectorComponent() ));
                 break;
             default:
                 delete entity;

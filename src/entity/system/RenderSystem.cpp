@@ -7,6 +7,7 @@
 #include "../component/PositionComponent.h"
 #include "../component/UiComponent.h"
 #include "../component/HealthComponent.h"
+#include "../component/SelectorComponent.h"
 
 namespace Entity {
     RenderSystem::RenderSystem(SDL_Renderer *_renderer)
@@ -48,10 +49,11 @@ namespace Entity {
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
         UiComponent* uiComponent = entity->getComponent<UiComponent>("Ui");
         HealthComponent* healthComponent = entity->getComponent<HealthComponent>("Health");
+        SelectorComponent* selectorComponent = entity->getComponent<SelectorComponent>("Selector");
         if(!visualComponent || !positionComponent)
             return;
         Vector2D pixPosition(positionComponent->x*visualComponent->srcrect.w, positionComponent->y*visualComponent->srcrect.h);
-        if(!uiComponent) {
+        if(!uiComponent && !selectorComponent) {
             renderTexture(visualComponent->srcrect, pixPosition);
             if(healthComponent){
                 renderHealthBar(pixPosition, (healthComponent->health/healthComponent->maxHealth)*100);
