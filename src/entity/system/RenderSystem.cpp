@@ -6,6 +6,7 @@
 #include "../component/VisualComponent.h"
 #include "../component/PositionComponent.h"
 #include "../component/UiComponent.h"
+#include "../component/HealthComponent.h"
 
 namespace Entity {
     RenderSystem::RenderSystem(SDL_Renderer *_renderer)
@@ -46,13 +47,27 @@ namespace Entity {
         VisualComponent* visualComponent = entity->getComponent<VisualComponent>("Visual");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
         UiComponent* uiComponent = entity->getComponent<UiComponent>("Ui");
+        HealthComponent* healthComponent = entity->getComponent<HealthComponent>("Health");
         if(!visualComponent || !positionComponent)
             return;
         Vector2D pixPosition(positionComponent->x*visualComponent->srcrect.w, positionComponent->y*visualComponent->srcrect.h);
         if(!uiComponent) {
             renderTexture(visualComponent->srcrect, pixPosition);
+            if(healthComponent){
+                renderHealthBar(pixPosition, (healthComponent->health/healthComponent->maxHealth)*100);
+            }
             return;
         }
         renderTexture(visualComponent->srcrect, pixPosition, 1);
+    }
+
+    void RenderSystem::renderHealthBar(Vector2D position, float percentage) {
+        SDL_Rect fillRect = {int(position.x/0.75+1),int(position.y/0.75+20), 30, 6};
+        SDL_SetRenderDrawColor(renderer, 0x99, 0x89, 0x24, 0xFF);
+        SDL_RenderFillRect(renderer, &fillRect);
+        fillRect = {int(position.x/0.75+2),int(position.y/0.75+21), 28*(percentage/100), 4};
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+        SDL_RenderFillRect(renderer, &fillRect);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     }
 }

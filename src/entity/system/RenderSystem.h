@@ -16,6 +16,7 @@ namespace Entity {
 
         void loadSpriteSheet(char* filePath);
         void renderTexture(SDL_Rect srcrect, Vector2D position, float scalingFactor);
+        void renderHealthBar(Vector2D position, float percentage);
     public:
         void update();
         void updateEntity(Entity* entity, uint64 updateNumber);

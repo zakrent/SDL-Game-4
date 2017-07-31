@@ -17,12 +17,10 @@ namespace Entity {
             :entityManager(entityManager), selectedEntity(nullptr), hasBeenClicked(false), lastClickX(0), lastClickY(0){}
 
     void UiSystem::update() {
-        if(selectedEntity)
-            std::cout<<selectedEntity->getComponent<UiComponent>("Ui")->representedPrefabId<<"\n";
         hasBeenClicked = false;
         std::vector<MouseClickMessage> mouseClickMessages = entityManager->getMessges<MouseClickMessage>(0,"MouseClick");
         if(mouseClickMessages.size()>0)
-            if(mouseClickMessages.back().pixY<SCREEN_HEIGHT-24){
+            if(mouseClickMessages.back().pixY<SCREEN_HEIGHT-24 && selectedEntity){
                 entityManager->spawnPrefab(
                         selectedEntity->getComponent<UiComponent>("Ui")->representedPrefabId,
                         int(mouseClickMessages.back().pixX/(24/0.75)),

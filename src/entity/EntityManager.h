@@ -22,7 +22,7 @@ namespace Entity{
         Random randomGenerator;
         std::vector< std::unique_ptr<Entity> > entities;
         std::vector< std::unique_ptr<BaseSystem> > systems;
-        std::vector< std::unique_ptr<Message> > messages; //key receiver ID (id 0 for broadcast)
+        std::vector< std::unique_ptr<Message> > messages;
         std::vector< std::unique_ptr<Message> > newMessages;
     public:
         Entity* getEntityAtPos(int x, int y);
@@ -38,8 +38,8 @@ namespace Entity{
                 Message* message = messagePtr.get();
                 if (message->subject == subject && message->receiverID == receiverID)
                     result.push_back(*static_cast<T*>(message));
-                return result;
             }
+            return result;
         }
 
         EntityManager(SDL_Renderer *_renderer);

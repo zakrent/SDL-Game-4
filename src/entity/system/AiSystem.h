@@ -14,7 +14,6 @@ namespace Entity {
     class AiSystem : public BaseSystem {
         EntityManager* entityManager;
         std::vector< std::unique_ptr<Entity> >* entities;
-        Entity* getEntityAtPos(int x, int y);
     public:
         void update();
         void updateEntity(Entity* entity, uint64 updateNumber);

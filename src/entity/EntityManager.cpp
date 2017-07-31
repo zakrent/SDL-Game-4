@@ -11,6 +11,8 @@
 #include "component/AiComponent.h"
 #include "system/UiSystem.h"
 #include "component/UiComponent.h"
+#include "system/HealthSystem.h"
+#include "component/HealthComponent.h"
 
 namespace Entity{
 
@@ -18,8 +20,7 @@ namespace Entity{
         systems.push_back(std::unique_ptr<BaseSystem>(new RenderSystem(_renderer)));
         systems.push_back(std::unique_ptr<BaseSystem>(new AiSystem(&entities, this)));
         systems.push_back(std::unique_ptr<BaseSystem>(new UiSystem(this)));
-        spawnPrefab(1,1,0);
-        spawnPrefab(0,1,6);
+        systems.push_back(std::unique_ptr<BaseSystem>(new HealthSystem(this)));
         spawnPrefab(10,0,14);
         spawnPrefab(11,1,14);
     }
@@ -30,9 +31,16 @@ namespace Entity{
         for(auto& systemPtr : systems){
             BaseSystem* system = systemPtr.get();
             system->update();
-            for(auto& entityPtr : entities){
+            for(int i = 0; i < entities.size(); i++){
+                auto& entityPtr = entities[i];
                 Entity* entity = entityPtr.get();
+                if(entity == nullptr)
+                    continue;
                 system->updateEntity(entity, updateNumber);
+                if(entity->shouldBeDestroyed) {
+                    entityPtr.reset();
+                    entities.erase(entities.begin()+i);
+                }
             }
         }
         std::swap(messages, newMessages);
@@ -54,10 +62,12 @@ namespace Entity{
         entity->addComponent(std::unique_ptr<BaseComponent>( new PositionComponent(x,y) ));
         switch(prefabID){
             case 0: //static entity
+                entity->addComponent(std::unique_ptr<BaseComponent>(new HealthComponent(100)));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
                 break;
             case 1: //basic enemy
-                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new HealthComponent(100)));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{24,0,24,24}) ));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(1)));
                 break;
             case 10: //ui -static entity spawn
@@ -65,7 +75,7 @@ namespace Entity{
                 entity->addComponent(std::unique_ptr<BaseComponent>(new UiComponent(0)));
                 break;
             case 11: //ui-basic enemy spawn
-                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{24,0,24,24}) ));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new UiComponent(1)));
                 break;
             default:

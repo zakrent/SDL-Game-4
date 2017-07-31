@@ -13,9 +13,9 @@
 namespace Entity {
     class Entity {
         uint64 ID;
-        bool shouldBeDestroyed;
         std::unordered_map<std::string, std::unique_ptr<BaseComponent> > components;
     public:
+        bool shouldBeDestroyed;
         void addComponent(std::unique_ptr<BaseComponent> component)
         {
             components[component.get()->name] = std::move(component);
@@ -31,7 +31,7 @@ namespace Entity {
         void destroy(){shouldBeDestroyed = true;}
         uint64 getID(){ return  ID;}
 
-        Entity(uint64 _ID):ID(_ID){};
+        Entity(uint64 _ID):ID(_ID), shouldBeDestroyed(false){};
     };
 }
 
