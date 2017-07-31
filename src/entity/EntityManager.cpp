@@ -13,6 +13,7 @@
 #include "component/UiComponent.h"
 #include "system/HealthSystem.h"
 #include "component/HealthComponent.h"
+#include "component/EnemyComponent.h"
 
 namespace Entity{
 
@@ -69,6 +70,7 @@ namespace Entity{
                 entity->addComponent(std::unique_ptr<BaseComponent>(new HealthComponent(100)));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{24,0,24,24}) ));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(1)));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new EnemyComponent()));
                 break;
             case 10: //ui -static entity spawn
                 entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));

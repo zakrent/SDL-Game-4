@@ -6,6 +6,7 @@
 #include "../component/AiComponent.h"
 #include "../component/PositionComponent.h"
 #include "../message/DamageMessage.h"
+#include "../component/EnemyComponent.h"
 
 namespace Entity {
     AiSystem::AiSystem(std::vector< std::unique_ptr<Entity> >* _entities, EntityManager* entityManager)
@@ -17,7 +18,6 @@ namespace Entity {
     }
 
     void AiSystem::updateEntity(Entity *entity, uint64 updateNumber) {
-
         AiComponent* aiComponent = entity->getComponent<AiComponent>("Ai");
         PositionComponent* positionComponent = entity->getComponent<PositionComponent>("Position");
         if(!aiComponent || !positionComponent)
@@ -27,8 +27,11 @@ namespace Entity {
                 Entity* downEntity = entityManager->getEntityAtPos(positionComponent->x,positionComponent->y+1);
                 if(downEntity == nullptr && updateNumber%20 == 0)
                     positionComponent->y ++;
-                else if(updateNumber%20 == 0)
-                    entityManager->createMessage(new DamageMessage(downEntity->getID(), 10));
+                else if(updateNumber%20 == 0) {
+                    EnemyComponent *enemyComponent = downEntity->getComponent<EnemyComponent>("Enemy");
+                    if (!enemyComponent)
+                        entityManager->createMessage(new DamageMessage(downEntity->getID(), 10));
+                }
                 break;
         }
     }
