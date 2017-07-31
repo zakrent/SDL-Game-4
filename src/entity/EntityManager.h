@@ -25,6 +25,7 @@ namespace Entity{
         std::vector< std::unique_ptr<Message> > messages; //key receiver ID (id 0 for broadcast)
         std::vector< std::unique_ptr<Message> > newMessages;
     public:
+        Entity* getEntityAtPos(int x, int y);
         void addEntity(std::unique_ptr<Entity>);
         void spawnPrefab(int prefabID, int x, int y);
         void createMessage(Message* message);

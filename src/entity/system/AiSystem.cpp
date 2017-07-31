@@ -24,22 +24,12 @@ namespace Entity {
             return;
         switch(aiComponent->usedAiId){
             case 1:
-                Entity* downEntity = getEntityAtPos(positionComponent->x,positionComponent->y+1);
+                Entity* downEntity = entityManager->getEntityAtPos(positionComponent->x,positionComponent->y+1);
                 if(downEntity == nullptr && updateNumber%20 == 0)
                     positionComponent->y ++;
                 else if(updateNumber%20 == 0)
                     entityManager->createMessage(new DamageMessage(downEntity->getID(), 10));
                 break;
         }
-    }
-
-    Entity *AiSystem::getEntityAtPos(int x, int y) {
-        for(auto& entityPtr : *entities) {
-            PositionComponent* positionComponent = entityPtr.get()->getComponent<PositionComponent>("Position");
-            if(positionComponent)
-                if(positionComponent->x==x && positionComponent->y==y)
-                    return entityPtr.get();
-        }
-        return nullptr;
     }
 }

@@ -48,6 +48,8 @@ namespace Entity{
     }
 
     void EntityManager::spawnPrefab(int prefabID, int x, int y) {
+        if(getEntityAtPos(x,y))
+            return;
         Entity* entity = new Entity(randomGenerator.getRandomID());
         entity->addComponent(std::unique_ptr<BaseComponent>( new PositionComponent(x,y) ));
         switch(prefabID){
@@ -71,5 +73,15 @@ namespace Entity{
                 return;
         }
         entities.push_back(std::unique_ptr<Entity>(entity));
+    }
+
+    Entity *EntityManager::getEntityAtPos(int x, int y) {
+        for(auto& entityPtr : entities) {
+            PositionComponent* positionComponent = entityPtr.get()->getComponent<PositionComponent>("Position");
+            if(positionComponent)
+                if(positionComponent->x==x && positionComponent->y==y)
+                    return entityPtr.get();
+        }
+        return nullptr;
     }
 }
