@@ -27,7 +27,7 @@ namespace Entity{
     public:
         Entity* getEntityAtPos(int x, int y);
         void addEntity(std::unique_ptr<Entity>);
-        void spawnPrefab(int prefabID, int x, int y);
+        void spawnPrefab(int prefabID, int x, int y,bool samePosOverride = false);
         void createMessage(Message* message);
         void update(uint64 updateNumber);
 

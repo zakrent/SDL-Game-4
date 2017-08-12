@@ -25,6 +25,7 @@ namespace Entity{
         systems.push_back(std::unique_ptr<BaseSystem>(new HealthSystem(this)));
         spawnPrefab(10,0,14);
         spawnPrefab(11,1,14);
+        spawnPrefab(12,2,14);
         spawnPrefab(30,0,0);
     }
 
@@ -58,8 +59,8 @@ namespace Entity{
         newMessages.push_back(std::unique_ptr<Message>(message));
     }
 
-    void EntityManager::spawnPrefab(int prefabID, int x, int y) {
-        if(getEntityAtPos(x,y))
+    void EntityManager::spawnPrefab(int prefabID, int x, int y, bool samePosOverride) {
+        if(getEntityAtPos(x,y) && !samePosOverride)
             return;
         Entity* entity = new Entity(randomGenerator.getRandomID());
         entity->addComponent(std::unique_ptr<BaseComponent>( new PositionComponent(x,y) ));
@@ -82,9 +83,22 @@ namespace Entity{
                 entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{24,0,24,24}) ));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new UiComponent(1)));
                 break;
+            case 12: //ui-basic turret spawn
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new UiComponent(20)));
+                break;
+            case 20: //basic-turret
+                entity->addComponent(std::unique_ptr<BaseComponent>(new HealthComponent(100)));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{0,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(3)));
+                break;
             case 30: //ui-selector
                 entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{48,0,24,24}) ));
                 entity->addComponent(std::unique_ptr<BaseComponent>(new SelectorComponent() ));
+                break;
+            case 31: //bullet
+                entity->addComponent(std::unique_ptr<BaseComponent>(new VisualComponent(SDL_Rect{72,0,24,24}) ));
+                entity->addComponent(std::unique_ptr<BaseComponent>(new AiComponent(2)));
                 break;
             default:
                 delete entity;
